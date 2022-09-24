@@ -11,9 +11,8 @@ import (
 )
 
 func main() {
-
-	gocron.Every(3).Seconds().Do(startLastNews)
-	gocron.Every(10).Seconds().Do(apis.CreateNews)
+	gocron.Every(10).Seconds().Do(startLastNews)
+	gocron.Every(12).Seconds().Do(apis.CreateNews)
 	<-gocron.Start()
 	e := echo.New()
 	e.Use(middleware.Logger())

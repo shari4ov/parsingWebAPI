@@ -43,7 +43,7 @@ func GetLastNews() (dto.News, error) {
 	return n, nil
 }
 func SendLastNews(news dto.News) error {
-	conn, err := amqp091.Dial("amqp://admin:admin@localhost:5672")
+	conn, err := amqp091.Dial("amqp://admin:admin@10.128.0.3:5672")
 	fmt.Println(err)
 	amqpChannel, err := conn.Channel()
 	fmt.Println(err)
@@ -81,8 +81,7 @@ func SendLastNews(news dto.News) error {
 	return nil
 }
 func CreateNews() {
-
-	conn, err := amqp.Dial("amqp://admin:admin@localhost:5672")
+	conn, err := amqp.Dial("amqp://admin:admin@10.128.0.3:5672")
 	HandleError(err, "Line 87")
 	defer conn.Close()
 	ch, err := conn.Channel()
@@ -114,9 +113,8 @@ func CreateNews() {
 		for d := range msgs {
 			channel <- JsonToObject(d.Body)
 			SaveToDB(channel)
-			time.Sleep(time.Second * 3)
+			time.Sleep(time.Second * 1)
 		}
-
 	}()
 	<-forever
 }
